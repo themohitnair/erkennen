@@ -35,11 +35,17 @@ def extract_faces_from_directory(input_dir: str, output_dir: str) -> None:
 
                 pil_image = Image.fromarray(face_image)
 
+                # Resize the image to have a width of 512 while maintaining aspect ratio
+                aspect_ratio = pil_image.height / pil_image.width
+                new_width = 144
+                new_height = int(new_width * aspect_ratio)
+                resized_face = pil_image.resize((new_width, new_height), Image.LANCZOS)
+
                 face_filename = f"{os.path.splitext(filename)[0]}_face_{i+1}.png"
                 face_file_path = os.path.join(output_dir, face_filename)
 
-                pil_image.save(face_file_path)
-                print(f"Saved face {i+1} from {filename} as {face_file_path}")
+                resized_face.save(face_file_path)
+                print(f"Saved resized face {i+1} from {filename} as {face_file_path}")
 
 
 if __name__ == "__main__":
