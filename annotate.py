@@ -2,15 +2,16 @@ import pickle
 from config import PICKLE
 import face_recognition
 from PIL import ImageDraw, ImageGrab, Image
+import time
+
+with open(PICKLE, "rb") as file:
+    enc_name_dict: dict = pickle.load(file)
+
+known_face_encodings = list(enc_name_dict.keys())
+known_face_names = list(enc_name_dict.values())
 
 
 def capture_and_annotate():
-    with open(PICKLE, "rb") as file:
-        enc_name_dict: dict = pickle.load(file)
-
-    known_face_encodings = list(enc_name_dict.keys())
-    known_face_names = list(enc_name_dict.values())
-
     image = ImageGrab.grab()
 
     face_locations = face_recognition.face_locations(image)
@@ -36,3 +37,4 @@ def capture_and_annotate():
             ((left, bottom - text_height), (right, bottom)), fill=(0, 0, 255)
         )
         draw.text((left + 6, bottom - text_height), name, fill=(255, 255, 255))
+    time.sleep(5)
