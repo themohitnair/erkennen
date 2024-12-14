@@ -15,8 +15,3 @@ def capture():
 
     screenshot.save(image_path, format="PNG", optimize=True)
     logging.info(f"Screenshot image {image_path} saved.")
-
-
-if __name__ == "__main__":
-    time.sleep(5)
-    capture()
