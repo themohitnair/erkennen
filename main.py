@@ -12,12 +12,14 @@ in_gather_mode = False
 
 def main():
     global in_gather_mode
-    choice = input("Choose a mode: \n[g] -> Gather\n[a] -> Annotate")
-    if choice.lower() == "g":
+    choice = input(
+        "Choose a mode: \n[g] -> Gather\n[a] -> Annotate\nEnter your choice [G/a]: "
+    )
+    if choice.lower() == "a":
+        annotate_service()
+    else:
         in_gather_mode = True
         gather_service()
-    elif choice.lower() == "a":
-        annotate_service()
 
 
 def on_interrupt(signum, frame):
@@ -39,7 +41,6 @@ signal.signal(signal.SIGINT, on_interrupt)
 
 def annotate_service():
     while True:
-        time.sleep(10)
         capture_and_annotate()
 
 
