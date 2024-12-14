@@ -1,10 +1,12 @@
 import os
-from config import FACES_DIR
+from config import FACES_DIR, PICKLE
 import pickle
 import face_recognition
 
 
 def name_faces():
+    if os.path.exists(PICKLE):
+        os.remove(PICKLE)
     encodings_dict = {}
     for filename in os.listdir(FACES_DIR):
         if filename.endswith(".png"):
