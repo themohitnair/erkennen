@@ -1,13 +1,12 @@
+import time
+import logging
+import signal
+import sys
 from screenshot import capture
 from extract import crop_and_store_faces
-import signal
-import logging
-import sys
-
-import time
 
 
-def on_interrupt():
+def on_interrupt(signum, frame):
     logging.info("Interrupt received!")
     crop_and_store_faces()
     sys.exit(0)
