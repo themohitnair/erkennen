@@ -7,9 +7,9 @@ import os
 
 def crop_and_store_faces():
     known_face_encodings = []
-    desired_width = 400
+    desired_width = 800
 
-    for filename in os.listdir(SS_DIR):
+    for j, filename in enumerate(os.listdir(SS_DIR)):
         if filename.endswith(".png"):
             image_path = os.path.join(SS_DIR, filename)
             logging.info(f"Loaded {filename} for processing.")
@@ -20,7 +20,9 @@ def crop_and_store_faces():
             encs = face_recognition.face_encodings(image, locs)
             os.makedirs(FACES_DIR, exist_ok=True)
             for i, (loc, enc) in enumerate(zip(locs, encs)):
-                matches = face_recognition.compare_faces(known_face_encodings, enc)
+                matches = face_recognition.compare_faces(
+                    known_face_encodings, enc, tolerance=0.6
+                )
 
                 if True not in matches:
                     known_face_encodings.append(enc)
@@ -38,7 +40,7 @@ def crop_and_store_faces():
                         (desired_width, new_height),
                     )
 
-                    face_filename = f"person_{i}.png"
+                    face_filename = f"Image {j} Person {i}.png"
                     output_path = os.path.join(FACES_DIR, face_filename)
                     pil_image.save(output_path)
 
