@@ -25,6 +25,10 @@ def capture_and_annotate():
     image_np = np.array(image)
 
     face_locations = face_recognition.face_locations(image_np)
+    if len(face_locations) == 0:
+        logging.info("No faces detected in the screenshot.")
+        return
+
     face_encodings = face_recognition.face_encodings(image_np, face_locations)
 
     pil_image = Image.fromarray(image_np)
@@ -43,7 +47,6 @@ def capture_and_annotate():
         draw.rectangle(((left, top), (right, bottom)), outline=(0, 0, 255), width=2)
 
         text_bbox = draw.textbbox((left + 6, bottom - 20), name)
-        text_width = text_bbox[2] - text_bbox[0]
         text_height = text_bbox[3] - text_bbox[1]
 
         draw.rectangle(

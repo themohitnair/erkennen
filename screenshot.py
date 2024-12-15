@@ -1,6 +1,8 @@
 from PIL import ImageGrab
 from config import SS_DIR
 import os
+import numpy as np
+import face_recognition
 import logging
 import time
 
@@ -12,6 +14,12 @@ def capture():
     image_path = os.path.join(SS_DIR, f"screenshot_{timestamp}.png")
 
     screenshot = ImageGrab.grab()
+
+    image_np = np.array(screenshot)
+    face_locations = face_recognition.face_locations(image_np)
+    if len(face_locations) == 0:
+        logging.info("No faces detected in the screenshot.")
+        return
 
     screenshot.save(image_path, format="PNG", optimize=True)
     logging.info(f"Screenshot image {image_path} saved.")
