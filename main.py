@@ -2,6 +2,7 @@ import time
 import logging
 import signal
 import sys
+import typer
 from screenshot import capture
 from extract import crop_and_store_faces
 from name import name_faces
@@ -9,18 +10,7 @@ from annotate import capture_and_annotate
 
 in_gather_mode = False
 
-
-def main():
-    global in_gather_mode
-    choice = input(
-        "Choose a mode: \n[g] -> Gather\n[a] -> Annotate\nEnter your choice [G/a]: "
-    )
-    if choice.lower() == "a":
-        annotate_service()
-    else:
-        in_gather_mode = True
-        gather_service()
-
+app = typer.Typer()
 
 def on_interrupt(signum, frame):
     global in_gather_mode
@@ -35,20 +25,22 @@ def on_interrupt(signum, frame):
         logging.info("Annotate service interrupted. Exiting normally...")
         sys.exit(0)
 
-
 signal.signal(signal.SIGINT, on_interrupt)
 
-
-def annotate_service():
+@app.command()
+def annotate():
+    logging.info("Starting annotation service...")
     while True:
         capture_and_annotate()
 
-
-def gather_service():
+@app.command()
+def gather():
+    logging.info("Starting gather service...")
+    global in_gather_mode
+    in_gather_mode = True
     while True:
         time.sleep(5)
         capture()
 
-
 if __name__ == "__main__":
-    main()
+    app()
