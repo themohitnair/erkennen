@@ -10,21 +10,29 @@ import numpy as np
 
 logger = logging.getLogger(__name__)
 
-try:
-    with open(PICKLE, "rb") as file:
-        enc_name_dict: dict = pickle.load(file)
-except FileNotFoundError:
-    # TODO: Add info on how to resolve in the error message
-    logger.error("Pickle file not found.")
-    raise
 
-known_face_encodings = [
-    np.array(encoding_tuple) for encoding_tuple in enc_name_dict.keys()
-]
-known_face_names = list(enc_name_dict.values())
-
+enc_name_dict       : dict | None = None
+known_face_encodings: list        = None
+known_face_names    : list        = None
 
 def capture_and_annotate():
+    global enc_name_dict
+    global known_face_encodings
+    global known_face_names
+    if enc_name_dict is None:
+        try:
+            with open(PICKLE, "rb") as file:
+                print("Loading file...")
+                enc_name_dict = pickle.load(file)
+        except FileNotFoundError:
+            logger.error("Pickle file not found. Have you gathered the images first?")
+            raise
+
+        known_face_encodings = [
+            np.array(encoding_tuple) for encoding_tuple in enc_name_dict.keys()
+        ]
+        known_face_names = list(enc_name_dict.values())
+
     os.makedirs(ANNOTATED, exist_ok=True)
 
     time.sleep(5)
