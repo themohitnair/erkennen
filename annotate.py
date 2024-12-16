@@ -1,5 +1,4 @@
 import pickle
-import config
 from config import PICKLE, ANNOTATED
 import face_recognition
 import logging
@@ -22,8 +21,8 @@ def capture_and_annotate():
     if enc_name_dict is None:
         try:
             with open(PICKLE, "rb") as file:
-                print("Loading file...")
                 enc_name_dict = pickle.load(file)
+                logger.info(f"Loaded {PICKLE}.")
         except FileNotFoundError:
             logger.error("Pickle file not found. Have you gathered the images first?")
             raise
@@ -37,6 +36,7 @@ def capture_and_annotate():
 
     time.sleep(5)
     image = ImageGrab.grab()
+    logger.info("Captured screenshot for annotation.")
 
     image_np = np.array(image)
 

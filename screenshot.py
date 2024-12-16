@@ -5,7 +5,6 @@ import numpy as np
 import face_recognition
 import logging
 import time
-import config
 
 logger = logging.getLogger(__name__)
 
