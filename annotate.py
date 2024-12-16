@@ -7,6 +7,8 @@ import time
 import os
 import numpy as np
 
+logger = logging.getLogger(__name__)
+
 with open(PICKLE, "rb") as file:
     enc_name_dict: dict = pickle.load(file)
 
@@ -26,7 +28,7 @@ def capture_and_annotate():
 
     face_locations = face_recognition.face_locations(image_np)
     if len(face_locations) == 0:
-        logging.info("No faces detected in the screenshot.")
+        logger.info("No faces detected in the screenshot.")
         return
 
     face_encodings = face_recognition.face_encodings(image_np, face_locations)
@@ -58,4 +60,4 @@ def capture_and_annotate():
     annotated_image_path = os.path.join(ANNOTATED, f"annotated_{timestamp}.png")
     pil_image.save(annotated_image_path)
 
-    logging.info(f"Annotated image saved at: {annotated_image_path}")
+    logger.info(f"Annotated image saved at: {annotated_image_path}")

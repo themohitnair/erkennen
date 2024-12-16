@@ -3,7 +3,9 @@ from PIL import Image
 from config import FACES_DIR, SS_DIR
 import logging
 import os
+import log_config
 
+logger = logging.getLogger(__name__)
 
 def crop_and_store_faces():
     known_face_encodings = []
@@ -12,7 +14,7 @@ def crop_and_store_faces():
     for j, filename in enumerate(os.listdir(SS_DIR)):
         if filename.endswith(".png"):
             image_path = os.path.join(SS_DIR, filename)
-            logging.info(f"Loaded {filename} for processing.")
+            logger.info(f"Loaded {filename} for processing.")
 
             image = face_recognition.load_image_file(image_path)
 
@@ -44,8 +46,8 @@ def crop_and_store_faces():
                     output_path = os.path.join(FACES_DIR, face_filename)
                     pil_image.save(output_path)
 
-                    logging.info(f"Saved {output_path} to {FACES_DIR} directory.")
+                    logger.info(f"Saved {output_path} to {FACES_DIR} directory.")
                 else:
-                    logging.info(f"Duplicate face detected in {filename}. Skipping.")
+                    logger.info(f"Duplicate face detected in {filename}. Skipping.")
         else:
-            logging.info("Not a PNG. Skipping.")
+            logger.info("Not a PNG. Skipping.")
