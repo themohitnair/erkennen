@@ -5,3 +5,4 @@ face-recognition-models==0.3.0
 numpy==2.2.0
 pillow==11.0.0
 setuptools==75.6.0
+typer==0.15.1
