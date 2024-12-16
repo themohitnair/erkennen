@@ -6,6 +6,7 @@ import face_recognition
 import logging
 import time
 
+logger = logging.getLogger(__name__)
 
 def capture():
     os.makedirs(SS_DIR, exist_ok=True)
@@ -18,8 +19,8 @@ def capture():
     image_np = np.array(screenshot)
     face_locations = face_recognition.face_locations(image_np)
     if len(face_locations) == 0:
-        logging.info("No faces detected in the screenshot.")
+        logger.info("No faces detected in the screenshot.")
         return
 
     screenshot.save(image_path, format="PNG", optimize=True)
-    logging.info(f"Screenshot image {image_path} saved.")
+    logger.info(f"Screenshot image {image_path} saved.")
