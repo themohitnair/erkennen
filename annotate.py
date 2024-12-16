@@ -1,4 +1,5 @@
 import pickle
+import config
 from config import PICKLE, ANNOTATED
 import face_recognition
 import logging
@@ -9,8 +10,13 @@ import numpy as np
 
 logger = logging.getLogger(__name__)
 
-with open(PICKLE, "rb") as file:
-    enc_name_dict: dict = pickle.load(file)
+try:
+    with open(PICKLE, "rb") as file:
+        enc_name_dict: dict = pickle.load(file)
+except FileNotFoundError:
+    # TODO: Add info on how to resolve in the error message
+    logger.error("Pickle file not found.")
+    raise
 
 known_face_encodings = [
     np.array(encoding_tuple) for encoding_tuple in enc_name_dict.keys()

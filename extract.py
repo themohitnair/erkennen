@@ -1,9 +1,9 @@
 import face_recognition
 from PIL import Image
+import config
 from config import FACES_DIR, SS_DIR
 import logging
 import os
-import log_config
 
 logger = logging.getLogger(__name__)
 

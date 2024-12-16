@@ -3,7 +3,7 @@ import logging
 import signal
 import sys
 import typer
-import log_config
+import config
 from screenshot import capture
 from extract import crop_and_store_faces
 from name import name_faces
